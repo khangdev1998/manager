@@ -214,7 +214,7 @@ $(document).ready(function () {
 
   // Xử lý khi click vào nút edit sửa xóa
   $(document).on("click", ".edit-tr__change", function () {
-    showModal("primary", "Thông tin nhân viên");
+    showModal("primary", "Sửa thông tin nhân viên");
   });
   $(document).on("click", ".edit-tr__remove", function () {
     showModal("warning", "Pop-up thông báo");
