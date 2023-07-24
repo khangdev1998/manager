@@ -1,151 +1,222 @@
 $(document).ready(function () {
-  function convertGender(gender) {
-    switch (gender) {
-      case 0:
-        return "khác";
-      case 1:
-        return "Nam";
-      case 2:
-        return "Nữ";
-      default:
-        return "Không xác định";
+  function showModal(modifier, title) {
+    // Xử lý tạo modal và kiểm tra modal chưa có trong DOM mới thực thi
+    if (document.querySelector(".modal") == null) {
+      const modalWarning = `<div class="modal-wrapper">
+      <div class="modal-top"><h2>${title}</h2></div>
+      <div class="modal-content">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span>Bạn có chắc muốn xóa nhân viên này không?</span>
+      </div>
+    </div>`;
+      const modalPrimary = `<div class="modal-wrapper">
+      <div class="modal-top"><h2>${title}</h2></div>
+      <div class="modal-main">
+        <div class="modal-content__left">
+          <a href="#!" class="modal-content__left-avatar">
+            <img src="./img/default-avatar.jpg" alt="this-is-avatar" />
+          </a>
+          <span
+            >Vui lòng chọn ảnh có định dạng (.jpg, .jpeg, .png, .gif.)</span
+          >
+        </div>
+        <div class="modal-content__right">
+          <div class="info">
+            <span class="info-title">A. Thông tin chung.</span>
+            <div class="info-form">
+              <div class="info-row">
+                <div class="info-row__column">
+                  <span>Mã nhân viên (<span>*</span>)</span>
+                  <div class="input-row__column-input">
+                    <input type="text" />
+                  </div>
+                </div>
+                <div class="info-row__column">
+                  <span>Họ và tên (<span>*</span>)</span>
+                  <div class="input-row__column-input">
+                    <input type="text" />
+                  </div>
+                </div>
+              </div>
+              <div class="info-row">
+                <div class="info-row__column">
+                  <span>Ngày sinh</span>
+                  <div class="input-row__column-input">
+                    <input type="text" />
+                    <i class="far fa-calendar"></i>
+                  </div>
+                </div>
+                <div class="info-row__column">
+                  <span>Giới tính</span>
+                  <select class="input-row__column-select" name="" id="">
+                    <option value="">Nam</option>
+                    <option value="">Nữ</option>
+                    <option value="">Khác</option>
+                  </select>
+                </div>
+              </div>
+              <div class="info-row">
+                <div class="info-row__column">
+                  <span>Số CMTND/Căn cước (<span>*</span>)</span>
+                  <div class="input-row__column-input">
+                    <input type="text" />
+                  </div>
+                </div>
+                <div class="info-row__column">
+                  <span>Ngày cấp</span>
+                  <div class="input-row__column-input">
+                    <input type="text" />
+                    <i class="far fa-calendar"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="info-row">
+                <div class="info-row__column">
+                  <span>Nơi cấp</span>
+                  <div class="input-row__column-input">
+                    <input type="text" />
+                  </div>
+                </div>
+                <div class="info-row__column"></div>
+              </div>
+              <div class="info-row">
+                <div class="info-row__column">
+                  <span>Email (<span>*</span>)</span>
+                  <div class="input-row__column-input">
+                    <input type="text" />
+                  </div>
+                </div>
+                <div class="info-row__column">
+                  <span>Số điện thoại (<span>*</span>)</span>
+                  <div class="input-row__column-input">
+                    <input type="text" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <span class="info-title info-title--mt">Thông tin công việc</span>
+            <div class="info-form">
+              <div class="info-row">
+                <div class="info-row__column">
+                  <span>Vị trí</span>
+                  <select class="input-row__column-select" name="" id="">
+                    <option value="">Giám đốc</option>
+                    <option value="">Demo 2</option>
+                    <option value="">Demo 3</option>
+                  </select>
+                </div>
+                <div class="info-row__column">
+                  <span>Phòng ban</span>
+                  <select class="input-row__column-select" name="" id="">
+                    <option value="">Phòng nhân sự</option>
+                    <option value="">Nữ</option>
+                    <option value="">Khác</option>
+                  </select>
+                </div>
+              </div>
+              <div class="info-row">
+                <div class="info-row__column">
+                  <span>Mã số thuế cá nhân</span>
+                  <div class="input-row__column-input">
+                    <input type="text" />
+                  </div>
+                </div>
+                <div class="info-row__column">
+                  <span>Mức lương cơ bản</span>
+                  <div class="input-row__column-input">
+                    <input type="text" placeholder="VNĐ" />
+                  </div>
+                </div>
+              </div>
+              <div class="info-row">
+                <div class="info-row__column">
+                  <span>Ngày sinh</span>
+                  <div class="input-row__column-input">
+                    <input type="text" />
+                    <i class="far fa-calendar"></i>
+                  </div>
+                </div>
+                <div class="info-row__column">
+                  <span>Tình trạng công việc</span>
+                  <select class="input-row__column-select" name="" id="">
+                    <option value="">Đang làm việc</option>
+                    <option value="">Demo 2</option>
+                    <option value="">Demo 3</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+              </div>
+            </div>
+          </div>
+      </div> `;
+      const modalPrimaryBottom = `<div class="modal-bottom">
+    <button class="modal-bottom__close">Huỷ</button><button class="modal-bottom__remove">
+      <i class="far fa-save"></i> Lưu
+    </button>
+  </div>`;
+      const modalWarningBottom = `<div class="modal-bottom">
+    <button class="modal-bottom__close">Huỷ</button><button class="modal-bottom__remove">
+      Xóa
+    </button>
+  </div>`;
+      const modalContent = `
+          <div class="modal modal--${modifier}">
+          <img class="modal-close" src="./icon/x.svg" alt="this-is-icon" />
+          ${modifier == "primary" ? modalPrimary : modalWarning}
+        ${modifier == "primary" ? modalPrimaryBottom : modalWarningBottom} 
+        </div>
+          `;
+      const overlay = `<div id="overlay"</div>`;
+      $("body").append(modalContent, overlay);
+      $(".modal").addClass("show");
+      $("#overlay").addClass("show");
     }
   }
 
-  $.ajax({
-    url: "https://cukcuk.manhnv.net/api/v1/Customers",
-    type: "GET",
-    success: function (data) {
-      // Các key bạn muốn kiểm tra giá trị null hoặc "string"
-      var keysToCheck = [
-        "CustomerCode",
-        "FullName",
-        "Gender",
-        "Address",
-        "DateOfBirth",
-        "Email",
-        "PhoneNumber",
-        "DebitAmount",
-        "CompanyName",
-      ];
+  // Xử lý ẩn modal và overlay
+  function hideModal() {
+    $(".modal").remove();
+    $("#overlay").remove();
+  }
 
-      // Loại bỏ các item mà có bất kỳ key nào trong keysToCheck có giá trị null hoặc undefined hoặc "string"
-      data = data.filter(function (item) {
-        return keysToCheck.every(function (key) {
-          return (
-            item[key] !== null &&
-            item[key] !== undefined &&
-            item[key] !== "string" &&
-            item[key] !== ""
-          );
-        });
-      });
+  // Xử lý khi bấm vào nút thêm nhân viên
+  $(".content-member__add").on("click", function () {
+    showModal("primary", "Thông tin nhân viên");
+  });
 
-      console.log(data.length);
-      // Tạo một dòng mới cho mỗi đối tượng dữ liệu
-      data.forEach(function (item) {
-        const row =
-          "<tr>" +
-          "<td>" +
-          item.CustomerCode +
-          "</td>" +
-          "<td>" +
-          item.FullName +
-          "</td>" +
-          "<td>" +
-          convertGender(item.Gender) +
-          "</td>" +
-          "<td>" +
-          new Date(item.DateOfBirth).toLocaleDateString() +
-          "</td>" +
-          "<td>" +
-          item.PhoneNumber +
-          "</td>" +
-          "<td>" +
-          item.Email +
-          "</td>" +
-          "<td>" +
-          item.Address +
-          "</td>" +
-          "<td>" +
-          item.CompanyName +
-          "</td>" +
-          "<td>" +
-          item.DebitAmount +
-          "</td>" +
-          "<td>" +
-          "Chưa cập nhật" +
-          "</td>" +
-          "<td class='delete-button'>" + // Thêm một cột mới cho nút "Xóa"
-          "<i class='far fa-trash-alt'" +
-          "</i>" +
-          "</td>" +
-          "</tr>";
-        // Thêm dòng vào bảng
-        $(".table-body tbody").append(row);
-      });
+  // Xử lý khi bấm vào nút đóng modal
+  $(document).on("click", ".modal-close, .modal-bottom__close", function () {
+    hideModal();
+  });
 
-      // Xử lý sự kiện khi click vào nút xóa khách hàng
-      $(".table-body tbody").on("click", ".delete-button i", function () {
-        // Nếu đã có một modal, không tạo thêm
-        if ($(".modal").length) {
-          return;
-        }
+  // Xử lý khi hover vào tr
+  let tableRows = document.querySelectorAll(".table-body table tr");
 
-        // Lưu trữ dòng hiện tại vào biến
-        const rowToDelete = $(this).closest("tr");
+  tableRows.forEach((row) => {
+    row.addEventListener("mouseenter", function () {
+      let deleteIconDiv = document.createElement("div");
+      deleteIconDiv.innerHTML = ` <div class="edit-tr">
+    <i class="edit-tr__remove fas fa-trash"></i>
+    <i class="edit-tr__change fas fa-pen"></i>
+  </div>`;
+      deleteIconDiv.style.position = "absolute";
+      deleteIconDiv.style.right = "1rem";
+      deleteIconDiv.style.top = "50%";
+      deleteIconDiv.style.transform = "translateY(-50%)";
+      this.appendChild(deleteIconDiv);
+    });
 
-        //Tạo overlay
-        const overlay = $('<div id="overlay"></div>');
-        // Tạo modal
-        const modal = $(
-          '<div class="modal">' +
-            '<img class="modal-close" src="./icon/x.svg" alt="this-is-icon">' +
-            '<div class="modal-wrapper">' +
-            '<div class="modal-top">' +
-            "<h2>Pop-up Thông báo</h2>" +
-            "</div>" +
-            '<div class="modal-content">' +
-            '<i class="fas fa-exclamation-triangle"></i>' +
-            "<span>Bạn có chắc muốn xoá khách hàng này không ?</span>" +
-            "</div>" +
-            "</div>" +
-            '<div class="modal-bottom modal-bottom--warning">' +
-            '<button class="modal-bottom__close">Huỷ</button>' +
-            '<button class="modal-bottom__remove">Xoá</button>' +
-            "</div>" +
-            "</div>"
-        );
+    row.addEventListener("mouseleave", function () {
+      this.removeChild(this.lastChild);
+    });
+  });
 
-        // Trong hàm xử lý sự kiện click
-        modal.addClass("show");
-        overlay.addClass("show");
-
-        // Chèn modal vào body
-        $("body").append(modal, overlay);
-
-        // Xử lý sự kiện click cho nút "Xóa" trong modal
-        modal.find(".modal-bottom__remove").on("click", function () {
-          rowToDelete.remove();
-          modal.addClass("hide");
-          modal.remove();
-          overlay.removeClass("show");
-        });
-
-        // Xử lý sự kiện click cho nút "Huỷ" hoặc biểu tượng "X"
-        modal
-          .find(".modal-bottom__close, .modal-close")
-          .on("click", function () {
-            modal.addClass("hide");
-            modal.remove();
-            overlay.removeClass("show");
-          });
-      });
-    },
-    error: function (error) {
-      $(".table-body tbody").append(
-        `<span class='error-api'><i class="fas fa-exclamation-triangle"></i> Lỗi không thể lấy dữ liệu từ api vui lòng báo cho admin trang web !</span>`
-      );
-    },
+  // Xử lý khi click vào nút edit sửa xóa
+  $(document).on("click", ".edit-tr__change", function () {
+    showModal("primary", "Thông tin nhân viên");
+  });
+  $(document).on("click", ".edit-tr__remove", function () {
+    showModal("warning", "Pop-up thông báo");
   });
 });
